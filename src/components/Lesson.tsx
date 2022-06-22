@@ -20,7 +20,7 @@ export function Lesson({
   const isLessonAvailable = isPast(availableAt);
   const availbleDateFormat = format(availableAt, "EEEE' • 'd' de 'MMMM ' • 'k'h'mm", {
     locale: ptBR
-  }).charAt(0).toUpperCase()
+  })
 
   return (
     <a href='#'>
