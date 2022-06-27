@@ -2,7 +2,11 @@ import React from 'react'
 import { CheckCircle, Lock, LockKey } from "phosphor-react";
 import { isPast, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+<<<<<<< Updated upstream
 import { Link } from 'react-router-dom';
+=======
+import { Link, useParams } from 'react-router-dom';
+>>>>>>> Stashed changes
 interface LessonProps {
   title: string;
   slug: string;
@@ -17,11 +21,14 @@ export function Lesson({
   slug,
   type
 }: LessonProps) {
+  const { slug: slugParams } = useParams<{ slug: string}>()
 
   const isLessonAvailable = isPast(availableAt);
   const availbleDateFormat = format(availableAt, "EEEE' • 'd' de 'MMMM ' • 'k'h'mm", {
     locale: ptBR
   })
+
+  const isActiveLesson = slugParams === slug
 
   return (
     <Link to={`/event/lesson/${slug}`} className='group'>
@@ -29,11 +36,15 @@ export function Lesson({
         {availbleDateFormat}
       </span>
 
+<<<<<<< Updated upstream
       <div className='rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500'>
+=======
+      <div className={`rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500 ${isActiveLesson ? 'bg-green-500' : ''}`}>
+>>>>>>> Stashed changes
         <header className='flex items-center justify-between'>
           {
             isLessonAvailable ? (
-              <span className='text-sm text-blue-500 font-medium flex items-center gap-2'>
+              <span className={`text-sm text-blue-500 font-medium flex items-center gap-2 ${isActiveLesson ? 'text-gray-100' : ''}`}>
                 <CheckCircle size={20} />
                 Conteúdo Liberado
               </span>
@@ -46,7 +57,7 @@ export function Lesson({
           }
 
 
-          <span className='text-xs rounded py-[0.125rem] px-2 text-white border border-green-300 font-bold'>
+          <span className={`text-xs rounded py-[0.125rem] px-2 text-white border border-green-300 font-bold${isActiveLesson ? 'border border-gray-100' : ''}`}>
             {type === 'live' ? 'AO VIVO' : 'AULA PRÁTICA'} 
           </span>
         </header>
