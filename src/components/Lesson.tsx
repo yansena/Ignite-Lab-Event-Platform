@@ -2,11 +2,7 @@ import React from 'react'
 import { CheckCircle, Lock, LockKey } from "phosphor-react";
 import { isPast, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-<<<<<<< Updated upstream
 import { Link } from 'react-router-dom';
-=======
-import { Link, useParams } from 'react-router-dom';
->>>>>>> Stashed changes
 interface LessonProps {
   title: string;
   slug: string;
@@ -36,11 +32,7 @@ export function Lesson({
         {availbleDateFormat}
       </span>
 
-<<<<<<< Updated upstream
       <div className='rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500'>
-=======
-      <div className={`rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500 ${isActiveLesson ? 'bg-green-500' : ''}`}>
->>>>>>> Stashed changes
         <header className='flex items-center justify-between'>
           {
             isLessonAvailable ? (
