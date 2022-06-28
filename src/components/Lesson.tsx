@@ -5,7 +5,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { Link, useParams } from 'react-router-dom';
 interface LessonProps {
   title: string;
-  slug: string;
+  slug: string | null | undefined;
   availableAt: Date;
   type: 'live' | 'class';
 }

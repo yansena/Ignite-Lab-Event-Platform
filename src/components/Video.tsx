@@ -3,49 +3,21 @@ import { CaretRight, DiscordLogo, FileArrowDown, Image, Lightning } from 'phosph
 import { gql, useQuery } from '@apollo/client';
 
 import '@vime/core/themes/default.css';
-
-
-const GET_LESSON_BY_SLUG_QUERY = gql`
-  query GetLessonBySlug ($slug: String) {
-    lesson(where: {slug: $slug}) {
-      title
-      videoId
-      description
-      teacher {
-        bio
-        avatarURL
-        name
-      }
-    }
-  }
-`
-
-interface GetLessonBySlugResponse {
-  lesson: {
-    title: string;
-    videoId: string;
-    description: string;
-    teacher: {
-      bio: string;
-      avatarURL: string;
-      name: string
-    }
-  }
-}
-
+import { useGetLessonBySlugQuery } from '../graphql/generated';
 
 interface VideoProps {
   lessonSlug :string
 }
 
 export function Video(props: VideoProps) {
-  const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+  const { data } = useGetLessonBySlugQuery({
     variables: {
       slug: props.lessonSlug
     }
   });
 
-  if(!data) {
+
+  if(!data || !data.lesson) {
     return (
       <div className='flex-1'>
         <p>Carregando...</p>
@@ -57,7 +29,7 @@ export function Video(props: VideoProps) {
       <div className='bg-black flex justify-center'>
         <div className='h-full w-full max-w-[1100px] max-h-[60vh] aspect-video'>
           <Player>
-            <Youtube videoId={data.lesson.videoId}/>
+            <Youtube videoId={data.lesson?.videoId}/>
             <DefaultUi />
           </Player>
         </div>
@@ -73,7 +45,8 @@ export function Video(props: VideoProps) {
               {data.lesson.description}
             </p>
 
-            <div className='flex items-center gap-4 mt-6'>
+            {data.lesson.teacher && (
+              <div className='flex items-center gap-4 mt-6'>
               <img
                 className='h-16 w-16 rounded-full border-2 border-blue-500'
                 src={data.lesson.teacher.avatarURL}
@@ -84,6 +57,7 @@ export function Video(props: VideoProps) {
                 <strong className='text-gray-200 text-sm block'>{data.lesson.teacher.bio}</strong>
               </div>
             </div>
+            )}
           </div>
 
           <div className='flex flex-col gap-4'>
